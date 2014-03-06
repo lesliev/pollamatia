@@ -1,0 +1,51 @@
+head
+  link rel="stylesheet" href="css/main.css"
+  title
+    | Pollamatia
+body
+  h1
+    | Pollamatia
+  h4
+    i
+      | given enough eyeballs, all bugs are shallow
+
+  form action="reviews" method="post"
+    h3
+      | Welcome
+      select name="name"
+        - @users.each do |user|
+          - if user == @user
+            option value="#{user}" selected="selected"
+              = user
+          - else
+            option value="#{user}"
+              = user
+
+      | !
+
+    table
+      tr
+        th
+          | Commit
+        th
+          | By
+        th
+          | Checked by
+      - @logs.each do |log|
+        tr
+          td
+            a name="log#{log.id}"
+              == log.commit_html(@github)
+              br
+              == log.body_html
+          td
+            = log.author
+          td
+            - users = log.users
+            = users.map(&:name).join(' ') if users.any?
+          td
+            button type="submit" name="plus" value="#{log.id}"
+              | +1
+            - if users.any?
+              button type="submit" name="minus" value="#{log.id}"
+                | -1
