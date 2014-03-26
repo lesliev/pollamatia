@@ -7,6 +7,7 @@ DataMapper.setup(:default, MyConfig.db_string)
 require_relative './commit'
 require_relative './user'
 require_relative './review'
+require_relative './repo'
 
 DataMapper.finalize
 DataMapper.auto_upgrade!

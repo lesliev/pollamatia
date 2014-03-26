@@ -5,15 +5,18 @@ head
     | Pollamatia
 body
 
-  .header
-    .bigtitle
-      | Pollamatia
-      .subtitle
-        i
-          | given enough eyeballs, all bugs are shallow
+  form action="reviews" method="post"
+    input type="hidden" name="repo" value="#{@repo.name}"
 
-    .welcome
-      form action="reviews" method="post"
+    .header
+      .bigtitle
+        | Pollamatia
+        .subtitle
+          i
+            | given enough eyeballs, all bugs are shallow
+
+      .welcome
+
         h3
           | Welcome ~
           select name="name"
@@ -24,31 +27,32 @@ body
               - else
                 option value="#{user}"
                   = user
+          | @ #{@repo.name}
 
-  .commits
-    table
-      tr
-        th
-          | Commit
-        th
-          | By
-        th
-          | Checked by
-      - @logs.each do |log|
+    .commits
+      table
         tr
-          td
-            a name="log#{log.id}"
-              == log.commit_html(@github)
-              br
-              == log.body_html
-          td
-            = log.author
-          td
-            - users = log.users
-            = users.map(&:name).join(' ') if users.any?
-          td
-            button type="submit" name="plus" value="#{log.id}"
-              | +1
-            - if users.any?
-              button type="submit" name="minus" value="#{log.id}"
-                | -1
+          th
+            | Commit
+          th
+            | By
+          th
+            | Checked by
+        - @logs.each do |log|
+          tr
+            td
+              a name="log#{log.id}"
+                == log.commit_html(@github)
+                br
+                == log.body_html
+            td
+              = log.author
+            td
+              - users = log.users
+              = users.map(&:name).join(' ') if users.any?
+            td
+              button type="submit" name="plus" value="#{log.id}"
+                | +1
+              - if users.any?
+                button type="submit" name="minus" value="#{log.id}"
+                  | -1

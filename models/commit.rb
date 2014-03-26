@@ -3,15 +3,16 @@ class Commit
 
   property :id,         Serial
   property :ref,        String, required: true
-  property :author,     String, required: true
+  property :author,     String, required: true, length: 255
   property :header,     String, required: true, length: 255
   property :body,       Text
   property :date,       DateTime, required: true
   property :created_at, DateTime
   property :updated_at, DateTime
 
-  has n, :reviews
-  has n, :users, through: :reviews
+  belongs_to  :repo, required: false
+  has n,      :reviews
+  has n,      :users, through: :reviews
 
   def commit_html(github)
     %Q(<a href="#{github}/#{ref}" target="_blank">#{header}</a><br/>)

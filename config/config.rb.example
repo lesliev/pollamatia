@@ -4,14 +4,6 @@ class MyConfig
       raise 'return a random string here'
     end
 
-    def github
-      raise 'return something like: http://www.github.com/repo-org/repo/commit'
-    end
-
-    def repo_path
-      raise 'return full path to git repo, like: /home/username/dev/git/whatever'
-    end
-
     def db_log
       'log/datamapper.log'
     end

@@ -5,7 +5,6 @@ require_relative 'config/config'
 
 class GitLog
   def initialize(entry)
-    @github = MyConfig.github
     message = ''
     entry.each_line do |l|
       @commit = l if l =~ /^commit [0-9abcdef]+$/
@@ -20,7 +19,7 @@ class GitLog
   end
 
   def author
-    @author.gsub(/^Author: /, '')
+    @author.gsub(/^Author: /, '').strip
   end
 
   def date
@@ -42,7 +41,8 @@ class GitLog
 end
 
 class Git
-  def initialize(repo_path, remote = 'origin', dev_branch = 'develop', master_branch = 'master')
+  def initialize(repo, repo_path, remote = 'origin', dev_branch = 'develop', master_branch = 'master')
+    @repo = repo
     @dir = repo_path
     @remote, @dev_branch, @master_branch = remote, dev_branch, master_branch
   end
@@ -101,7 +101,7 @@ class Git
     end
 
     # find known/missing commits
-    known = Commit.all(ref: commits.keys).map(&:ref)
+    known = Commit.all(repo: @repo, ref: commits.keys).map(&:ref)
     unknown = commits.keys - known
 
     puts "Going to create: #{unknown.inspect}"
@@ -109,16 +109,21 @@ class Git
     # create any commits not in the database
     unknown.each do |ref|
       log = commits[ref]
-      commit = Commit.new(ref: ref, author: log.author, header: log.header, body: log.body, date: log.date)
+      commit = Commit.new(repo: @repo, ref: ref, author: log.author, header: log.header, body: log.body, date: log.date)
 
       if !commit.save
         puts "Error creating #{ref}:"
-        commit.errors.messages.each{|e| puts e}
+        p commit.errors
+        puts
+        puts "trying to save:"
+        puts commit.inspect
       end
     end
   end
 end
 
 if __FILE__ == $0
-  Git.new(MyConfig.repo_path).save
+  Repo.all.each do |repo|
+    Git.new(repo, repo.local_path).save
+  end
 end

@@ -10,11 +10,14 @@ set :bind, '0.0.0.0'
 set :session_secret, MyConfig.session_secret
 
 get '/' do
+  @repo = Repo.first(name: params[:repo]) || Repo.first(order: :name)
   @users = User.all.map(&:name)
   @user = params[:user] || session[:user]
+
+  @logs = Commit.all(repo: @repo, order: :date.desc) - Commit.all(:header.like => 'Merge%')
+  @github = @repo.github_commit_url
+
   session[:user] = @user
-  @logs = Commit.all(order: :date.desc)
-  @github = MyConfig.github
 
   slim :index
 end
@@ -34,6 +37,11 @@ post '/reviews' do
     Review.first_or_create(user: user, commit: commit)
   end
 
-  user_param = "?user=#{user.name}"
-  redirect("/#{user_param}#log#{commit_id}")
+  new_params = []
+  new_params << "user=#{user.name}"
+  new_params << "repo=#{params[:repo]}"
+  param_string = ''
+  param_string = '?' + new_params.join('&') if new_params.any?
+
+  redirect("#{param_string}#log#{commit_id}")
 end
