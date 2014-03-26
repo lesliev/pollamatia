@@ -4,26 +4,28 @@ head
   title
     | Pollamatia
 body
-  h1
-    | Pollamatia
-  h4
-    i
-      | given enough eyeballs, all bugs are shallow
 
-  form action="reviews" method="post"
-    h3
-      | Welcome
-      select name="name"
-        - @users.each do |user|
-          - if user == @user
-            option value="#{user}" selected="selected"
-              = user
-          - else
-            option value="#{user}"
-              = user
+  .header
+    .bigtitle
+      | Pollamatia
+      .subtitle
+        i
+          | given enough eyeballs, all bugs are shallow
 
-      | !
+    .welcome
+      form action="reviews" method="post"
+        h3
+          | Welcome ~
+          select name="name"
+            - @users.each do |user|
+              - if user == @user
+                option value="#{user}" selected="selected"
+                  = user
+              - else
+                option value="#{user}"
+                  = user
 
+  .commits
     table
       tr
         th
