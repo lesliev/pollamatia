@@ -14,7 +14,7 @@ get '/' do
   @users = User.all.map(&:name)
   @user = params[:user] || session[:user]
 
-  @logs = Commit.all(repo: @repo, order: :date.desc) - Commit.all(:header.like => 'Merge%')
+  @logs = Commit.all(repo: @repo, order: :date.desc) - Commit.all(:header.like => 'Merge%', order: :date.desc)
   @github = @repo.github_commit_url
 
   session[:user] = @user
