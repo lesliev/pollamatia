@@ -86,7 +86,8 @@ tr:last-child td.last {
     -webkit-border-bottom-right-radius:10px; /* Saf3-4 */
 }
 
-a {color: #484848;}
+a { color: #484848; }
+a:visited { color: #878787; }
 
 .logtitle {
   font-weight: 800;
