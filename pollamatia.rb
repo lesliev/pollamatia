@@ -9,6 +9,13 @@ enable :sessions
 set :bind, '0.0.0.0'
 set :session_secret, MyConfig.session_secret
 
+# Do some HTTP Basic Auth
+if MyConfig.basic_username
+  use Rack::Auth::Basic, "Restricted Area" do |username, password|
+    username == MyConfig.basic_username and password == MyConfig.basic_password
+  end
+end
+
 get '/' do
   @repo = Repo.first(name: params[:repo]) || Repo.first(order: :name)
   @users = User.all.map(&:name)

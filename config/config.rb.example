@@ -4,6 +4,14 @@ class MyConfig
       raise 'return a random string here'
     end
 
+    def basic_username
+      # change this and basic_password to something if you want Basic Auth
+    end
+
+    def basic_password
+      # change this to something if you want Basic Auth
+    end
+
     def db_log
       'log/datamapper.log'
     end

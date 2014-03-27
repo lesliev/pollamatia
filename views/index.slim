@@ -53,7 +53,10 @@ body
               = log.author
             td
               - users = log.users
-              = users.map(&:name).join(' ') if users.any?
+              - if users.any?
+                = users.map(&:name).join(' ')
+              - else
+                | &nbsp;
             td
               button type="submit" name="plus" value="#{log.id}"
                 | +1
