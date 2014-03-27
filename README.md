@@ -12,36 +12,44 @@ Setup
 
 First create and edit your config:
 
-> $ cp config/config.rb.example config/config.rb
-> $ nano config/config.rb
+```
+$ cp config/config.rb.example config/config.rb
+$ nano config/config.rb
+```
 
 Create users:
 
-> $ irb
-> $ > require './models/boot.rb'
-> $ > User.create(name: 'bob')
-> $ > User.create(name: 'jim')
-> $ > User.create(name: 'jiminybob')
-
+```
+$ irb
+$ > require './models/boot.rb'
+$ > User.create(name: 'bob')
+$ > User.create(name: 'jim')
+$ > User.create(name: 'jiminybob')
+```
 
 Get needed libraries:
 
-> $ gem install bundler
-> $ bundle
-
+```
+$ gem install bundler
+$ bundle
+```
 
 Syncing
 -------
 
 You need to run the git log copier regularly, to update the commit list:
 
-> $ bundle exec ./git.rb
+```
+$ bundle exec ./git.rb
+```
 
 Before that is run, you'll need to have a git repo checked out and possibly also synced with a remote repo:
 (WARNING, this will remove any local changes in this repo)
 
-> $ cd repo/to/watch
-> $ git fetch origin && git reset --hard origin/master && git clean -f -d
+```
+$ cd repo/to/watch
+$ git fetch origin && git reset --hard origin/master && git clean -f -d
+```
 
 You could run those command every 5 minutes using crontab. We have Jenkins syncing the repo,
 so we just run the ./git.rb.
