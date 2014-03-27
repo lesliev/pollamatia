@@ -12,36 +12,36 @@ Setup
 
 First create and edit your config:
 
-  $ cp config/config.rb.example config/config.rb
-  $ nano config/config.rb
+> $ cp config/config.rb.example config/config.rb
+> $ nano config/config.rb
 
 Create users:
 
-  $ irb
-  $ > require './models/boot.rb'
-  $ > User.create(name: 'bob')
-  $ > User.create(name: 'jim')
-  $ > User.create(name: 'jiminybob')
+> $ irb
+> $ > require './models/boot.rb'
+> $ > User.create(name: 'bob')
+> $ > User.create(name: 'jim')
+> $ > User.create(name: 'jiminybob')
 
 
 Get needed libraries:
 
-  $ gem install bundler
-  $ bundle
+> $ gem install bundler
+> $ bundle
 
 
-Syncing 
+Syncing
 -------
 
 You need to run the git log copier regularly, to update the commit list:
 
-  $ bundle exec ./git.rb
+> $ bundle exec ./git.rb
 
 Before that is run, you'll need to have a git repo checked out and possibly also synced with a remote repo:
 (WARNING, this will remove any local changes in this repo)
 
-  $ cd repo/to/watch
-  $ git fetch origin && git reset --hard origin/master && git clean -f -d
+> $ cd repo/to/watch
+> $ git fetch origin && git reset --hard origin/master && git clean -f -d
 
 You could run those command every 5 minutes using crontab. We have Jenkins syncing the repo,
 so we just run the ./git.rb.
@@ -59,15 +59,17 @@ Usage
 
 4. Come back and '+1' the commit
 
+5. To switch to another repo, add ?repo=Name to the URL (for now)
 
 Planned improvements
 --------------------
 
-1. I'd like to have a comments box in Pollamatia, and email those comments to the committer. I think that's 
+1. I'd like to have a comments box in Pollamatia, and email those comments to the committer. I think that's
 better than having the comment always go to all subscribers, like what happens on Github right now.
-2. Ajax is the next thing on the cards - I don't want the browser scroll to jump when you click a button. 
-3. Auto-refresh every 5 minutes or so would be nice.
-4. The favicon needs little numbers Gmail has, to show how many commits are waiting.
+2. Ajax is the next thing on the cards - I don't want the browser scroll to jump when you click a button.
+3. A drop-down to choose the repository would be nice.
+4. Auto-refresh every 5 minutes or so would also be nice.
+5. The favicon needs little numbers GMail has, to show how many commits are waiting.
 
 
 Finally
