@@ -37,12 +37,16 @@ body
           th
             | By
           th
-            | Checked by
+            | Checked
+          th
+            |
         - @logs.each do |log|
           tr
             td
               a name="log#{log.id}"
-                == log.commit_html(@github)
+                .logtitle
+                  a href="#{@github}/#{log.ref}" target="_blank"
+                    = log.header
                 br
                 == log.body_html
             td

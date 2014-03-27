@@ -14,10 +14,6 @@ class Commit
   has n,      :reviews
   has n,      :users, through: :reviews
 
-  def commit_html(github)
-    %Q(<a href="#{github}/#{ref}" target="_blank">#{header}</a><br/>)
-  end
-
   def body_html
     body.split("\n").join("<br/>")
   end
